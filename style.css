@@ -1,0 +1,152 @@
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  padding: 1em;
+  margin: 0;
+}
+
+table {
+  border-spacing: 0;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .pc-none {
+    display: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .sp-none {
+    display: none !important;
+  }
+}
+
+#calendar_heading {
+  margin-bottom: 1em;
+}
+
+#calendar_heading .heading-text .year,
+#calendar_heading .heading-text .month {
+  font-size: 2em;
+  font-weight: bold;
+  padding: 0 .25em;
+}
+
+#calendar_heading .prev {
+  text-align: left;
+}
+
+#calendar_heading .next {
+  text-align: right;
+}
+
+#calendar_heading .heading-text {
+ text-align: center;
+}
+
+#calendar_heading button {
+  padding: .5em;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: none;
+  border-color: #ddd;
+}
+
+#calendar_heading button:hover {
+  background-color: #f1f1f1;
+}
+
+#calendar {
+  border: solid 1px #ddd;
+  border-collapse: collapse;
+  margin-bottom: 1em;
+}
+
+#calendar th,
+#calendar td {
+  border: solid 1px #ddd;
+}
+
+#calendar th {
+  text-align: center;
+  padding: 1em;
+}
+
+#calendar td {
+  height: 5em;
+  width: 14%;
+  vertical-align: top;
+  padding-top: 1em;
+  padding-left: 1em;
+  padding-bottom: 1em;
+}
+
+#calendar thead .sat,
+#calendar .sat .text-date {
+  color: blue;
+}
+
+#calendar thead .sun,
+#calendar .sun .text-date {
+  color: red;
+}
+
+#calendar .text-date {
+  font-weight: bold;
+}
+
+#calendar .text-date span {
+  margin-left: .5em;
+}
+
+#calendar .text-schedule .time {
+  margin-right: .5em;
+}
+
+#calendar tbody .defined {
+  cursor: pointer;
+}
+
+#calendar tbody .defined:hover {
+  background-color: #f1f1f1;
+}
+
+@media (max-width: 768px) {
+  #calendar {
+    display: block;
+    border: none;
+    border-left: solid 1px #ddd;
+    border-right: solid 1px #ddd;
+    border-bottom: solid 1px #ddd;
+  }
+
+  #calendar tbody,
+  #calendar tr {
+    display: block;
+  }
+
+  #calendar td {
+    display: table;
+    width: 100%;
+    padding: 0;
+    border: none;
+    border-top: solid 1px #ddd;
+  }
+
+  #calendar td .text-date,
+  #calendar td .text-schedule {
+    display: table-cell;
+  }
+
+  #calendar td .text-date {
+    vertical-align: middle;
+    text-align: center;
+    border-right: solid 1px #ddd;
+    background-color: #f1f1f1;
+    width: 20%;
+  }
+
+  #calendar td .text-schedule {
+    padding: 1em;
+  }
+}
