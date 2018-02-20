@@ -5,14 +5,60 @@ const prevButton = $('#prev_button');
 const calendarBody = $('#calendar tbody');
 const textYear = $('#calendar_heading .year');
 const textMonth = $('#calendar_heading .month');
-const daysJp = ['月', '火', '水', '木', '金', '土', '日'];
-const daysEn = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
-
+const days = [
+  {jp: '月', en: 'mon'},
+  {jp: '火', en: 'tue'},
+  {jp: '水', en: 'wed'},
+  {jp: '木', en: 'thu'},
+  {jp: '金', en: 'fri'},
+  {jp: '土', en: 'sat'},
+  {jp: '日', en: 'sun'}
+];
 const today = new Date();
 const current = {
-  year: undefined,
-  month: undefined
+  year: today.getFullYear(),
+  month: today.getMonth()
 };
+
+function setCols(count, row, cols, args, callback) {
+  let td;
+  if (row === 0 && args.startDay === count) {
+    args.textSkip = false;
+  } 
+  if (args.textDate > args.endDay) {
+    args.textSkip = true;
+  } 
+  if (args.textSkip) {
+    td = '<td class="col sp-none">&nbsp;</td>';
+  } else {
+    td = '<td class="col defined ' + days[count].en + '"><div class="text-date">' + args.textDate + '<span class="pc-none">(' + days[count].jp + ')</span></div><div class="text-schedule"></div></td>';
+    args.textDate++;
+  }
+  cols += td;
+  count++;
+  if (count < days.length) {
+    setCols(count, row, cols, args, callback);
+  } else {
+    callback(null, cols);
+  }
+}
+
+function setRows(count, rows, args, callback) {
+  let cols;
+  setCols(0, count, cols, args, function(err, res) {
+    if (err) {
+      callback(err);
+    } else {
+      rows += '<tr>' + res + '</tr>';
+    }
+  });
+  count++;
+  if (count < args.maxRow) {
+    setRows(count, rows, args, callback);
+  } else {
+    callback(null, rows);
+  }
+}
 
 function createCalendarBody(year, month) {
   const startDate = new Date(year, month, 1);
@@ -20,35 +66,25 @@ function createCalendarBody(year, month) {
   let startDay = startDate.getDay();
   startDay = startDay === 0 ? 6 : startDay - 1;
   const endDay = endDate.getDate();
-  let textSkip = true;
-  let textDate = 1;
   const maxCol = startDay + endDay;
   const maxRow = maxCol % 7 === 0 ? Math.floor(maxCol / 7) : Math.floor(maxCol / 7) + 1;
-  let tableBody = '';
-  
-  for (let row = 0; row < maxRow; row++) {
-    let tr = '<tr>';
-    
-    for (let col = 0; col < 7; col++) {
-      if (row === 0 && startDay === col) {
-        textSkip = false;
-      } 
-      if (textDate > endDay) {
-        textSkip = true;
-      } 
-      let td;
-      if (textSkip) {
-        td = '<td class="col sp-none">&nbsp;</td>';
-      } else {
-        td = '<td class="col defined ' + daysEn[col] + '"><div class="text-date">' + textDate + '<span class="pc-none">(' + daysJp[col] + ')</span></div><div class="text-schedule"></div></td>';
-        textDate++;
-      }
-      tr += td;
+  const args = {
+    startDate: startDate,
+    endDate: endDate,
+    startDay: startDay,
+    endDay: endDay,
+    maxRow: maxRow,
+    textDate: 1,
+    textSkip: true
+  };
+  let rows = '';
+  setRows(0, rows, args, function(err, res) {
+    if (err) {
+      console.log(err);
+    } else {
+      calendarBody.html(res);
     }
-    tr += '</tr>';
-    tableBody += tr;
-  }
-  calendarBody.html(tableBody);
+  });
 }
 
 function createCalendar(year, month) {
@@ -79,7 +115,7 @@ function setCurrentYearAndMonth(year, month, nextOrPrev) {
 }
 
 $(window).on('load', function(){
-  createCalendar(today.getFullYear(), today.getMonth());
+  createCalendar(current.year, current.month);
 });
 
 nextButton.click(function() {
