@@ -114,14 +114,14 @@ function setCurrentYearAndMonth(year, month, nextOrPrev) {
   createCalendar(year, month);
 }
 
-$(window).on('load', function(){
-  createCalendar(current.year, current.month);
-});
-
 nextButton.click(function() {
   setCurrentYearAndMonth(current.year, current.month, true);
 });
 
 prevButton.click(function() {
   setCurrentYearAndMonth(current.year, current.month, false);
+});
+
+$(window).on('load', function(){
+  createCalendar(current.year, current.month);
 });
