@@ -3,4 +3,4 @@
 * 月曜日始まりです  
 * ブレークポイントはBootStrapに合わせて、768pxです  
 #### DEMO
-[https://haman-show.github.io/calendar-ui/](https://haman-show.github.io/calendar-ui/){:target="_blank"}
+[https://haman-show.github.io/calendar-ui/](https://haman-show.github.io/calendar-ui/)
