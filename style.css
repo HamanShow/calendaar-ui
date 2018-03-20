@@ -76,9 +76,21 @@ table {
   height: 5em;
   width: 14%;
   vertical-align: top;
-  padding-top: 1em;
-  padding-left: 1em;
-  padding-bottom: 1em;
+}
+
+#calendar .text-date {
+  margin: 1em .5em;
+}
+
+#calendar .text-date .icon {
+  padding-left: .5em;
+}
+
+#calendar .text-date.current-date .icon {
+  color: white;
+  background-color: red;
+  padding: .5em;
+  border-radius: 25px;
 }
 
 #calendar thead .sat,
@@ -95,7 +107,7 @@ table {
   font-weight: bold;
 }
 
-#calendar .text-date span {
+#calendar .text-date .day-jp {
   margin-left: .5em;
 }
 

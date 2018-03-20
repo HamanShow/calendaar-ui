@@ -17,7 +17,8 @@ const days = [
 const today = new Date();
 const current = {
   year: today.getFullYear(),
-  month: today.getMonth()
+  month: today.getMonth(),
+  date: today.getDate()
 };
 
 function setCols(count, row, cols, args, callback) {
@@ -31,7 +32,11 @@ function setCols(count, row, cols, args, callback) {
   if (args.textSkip) {
     td = '<td class="col sp-none">&nbsp;</td>';
   } else {
-    td = '<td class="col defined ' + days[count].en + '"><div class="text-date">' + args.textDate + '<span class="pc-none">(' + days[count].jp + ')</span></div><div class="text-schedule"></div></td>';
+    td = '<td class="col defined ' + days[count].en + '"><div class="text-date';
+    if (args.textDate === args.currentDate) {
+      td += ' current-date';
+    }
+    td += '"><span class="icon">' + args.textDate + '</span><span class="pc-none">(' + days[count].jp + ')</span></div><div class="text-schedule"></div></td>';
     args.textDate++;
   }
   cols += td;
@@ -60,7 +65,7 @@ function setRows(count, rows, args, callback) {
   }
 }
 
-function createCalendarBody(year, month) {
+function createCalendarBody(year, month, date) {
   const startDate = new Date(year, month, 1);
   const endDate = new Date(year, month + 1, 0);
   let startDay = startDate.getDay();
@@ -69,6 +74,7 @@ function createCalendarBody(year, month) {
   const maxCol = startDay + endDay;
   const maxRow = maxCol % 7 === 0 ? Math.floor(maxCol / 7) : Math.floor(maxCol / 7) + 1;
   const args = {
+    currentDate: date,
     startDate: startDate,
     endDate: endDate,
     startDay: startDay,
@@ -87,15 +93,16 @@ function createCalendarBody(year, month) {
   });
 }
 
-function createCalendar(year, month) {
+function createCalendar(year, month, date) {
   textYear.text(year);
   textMonth.text(month + 1);
   current.year = year;
   current.month = month;
-  createCalendarBody(year, month);
+  current.date = date;
+  createCalendarBody(year, month, date);
 }
 
-function setCurrentYearAndMonth(year, month, nextOrPrev) {
+function setCurrentYearAndMonth(year, month, date, nextOrPrev) {
   if (nextOrPrev) {
     if (month < 11) {
       month++;
@@ -111,17 +118,17 @@ function setCurrentYearAndMonth(year, month, nextOrPrev) {
       month = 11;
     }
   }
-  createCalendar(year, month);
+  createCalendar(year, month, date);
 }
 
 nextButton.click(function() {
-  setCurrentYearAndMonth(current.year, current.month, true);
+  setCurrentYearAndMonth(current.year, current.month, current.date, true);
 });
 
 prevButton.click(function() {
-  setCurrentYearAndMonth(current.year, current.month, false);
+  setCurrentYearAndMonth(current.year, current.month, current.date, false);
 });
 
 $(window).on('load', function(){
-  createCalendar(current.year, current.month);
+  createCalendar(current.year, current.month, current.date);
 });
