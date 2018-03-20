@@ -36,7 +36,7 @@ function setCols(count, row, cols, args, callback) {
     if (args.textDate === args.currentDate) {
       td += ' current-date';
     }
-    td += '"><span class="icon">' + args.textDate + '</span><span class="pc-none">(' + days[count].jp + ')</span></div><div class="text-schedule"></div></td>';
+    td += '"><span class="icon">' + args.textDate + '</span><span class="pc-none days-jp">(' + days[count].jp + ')</span></div><div class="text-schedule"></div></td>';
     args.textDate++;
   }
   cols += td;
